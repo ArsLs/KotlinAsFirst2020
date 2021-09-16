@@ -34,7 +34,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     //Диагонали проверяем как в rookOrBishopThreatens()
     //Проверяем сумму координат, инвертируем координаты, опять проверяем
     if (x1 + y1 == x2 + y2) return true
-    if ((22 - x1 - y1) == (22 - x2 - y2)) return true
+    if ((11 + x1 - y1) == (11 + x2 - y2)) return true
     return false
 }
 
@@ -81,6 +81,7 @@ fun circleInside(
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val abc = listOf(a, b, c).sorted()
-    return abc[0] * abc[1] <= r * s
+    val rs = listOf(r, s).sorted()
+    return (abc[0] <= rs[0] && abc[1] <= rs[1]) || (abc[0] <= rs[1] && abc[1] <= rs[0])
 
 }

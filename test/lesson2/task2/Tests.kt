@@ -28,6 +28,7 @@ class Tests {
         assertTrue(queenThreatens(3, 6, 7, 6))
         assertTrue(queenThreatens(8, 1, 1, 8))
         assertFalse(queenThreatens(7, 6, 5, 7))
+        assertTrue(queenThreatens(1, 2, 4, 5))
     }
 
     @Test
@@ -60,6 +61,7 @@ class Tests {
     @Test
     @Tag("3")
     fun brickPasses() {
+        assertFalse(brickPasses(111, 125, 1, 2, 108))
         assertTrue(brickPasses(2, 10, 5, 6, 3))
         assertTrue(brickPasses(4, 4, 4, 4, 4))
         assertFalse(brickPasses(6, 5, 4, 3, 6))
