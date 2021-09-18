@@ -5,6 +5,15 @@ package lesson3.task1
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+//пришлось написать свою функцию pow1, потому что где-то напортачил и не даёт теперь pow нигде вставить кроме digitNumber
+fun pow1(n: Int, degree: Int): Int {
+    if (degree == 0) return 1
+    var result = n
+    for (i in 1..degree - 1) {
+        result *= n
+    }
+    return result
+}
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
@@ -86,11 +95,12 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
+
 fun fib(n: Int): Int {
-    when (n) {
-        1 -> return 1
-        2 -> return 1
-        else -> {
+    return when (n) {
+        1 -> 1
+        2 -> 1
+        else -> {//Почему-то с циклом for функция работает в разы быстрее чем с рекурсией: fib(n - 1) + fib(n - 2)
             var nMinus2: Int
             var nMinus1 = 1
             var N = 2
@@ -99,11 +109,9 @@ fun fib(n: Int): Int {
                 nMinus1 = N
                 N = nMinus1 + nMinus2
             }
-            return N
+            N
         }
     }
-
-
 }
 
 /**
@@ -221,7 +229,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sequence: List<Int> = listOf()
+    var sequenceLength = 0
+    var nSquare: Int
+    var nCounter = 1
+    while (sequenceLength < n) {
+        nSquare = nCounter * nCounter
+        nCounter += 1
+        sequence += nSquare  //Idea ругается на +=, вроде говорит что каждый раз в памяти создается новый список,
+        sequenceLength += digitNumber(nSquare)                               /* но я не знаю пока как по другому*/
+    }
+    //Функция создает список <Int> длинной минимум n цифр, в котором хранятся квадраты целых чисел,
+    //Также считает длину этой последовательности складывая количества цифр в числах.
+    //Далее, зная длину последовательности мы можем понять
+    //какая цифра из последнего элемента списка нам нужна и выводим её
+    return sequence.last() / pow1(10, sequenceLength - n) % 10
+}
 
 /**
  * Сложная (5 баллов)
@@ -232,4 +256,12 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var sequence: List<Int> = listOf(1, 1)
+    var sequenceLength = 2
+    while (sequenceLength < n) {
+        sequence += sequence.takeLast(2).sum()
+        sequenceLength += digitNumber(sequence.last())
+    }
+    return if (n > 2) sequence.last() / pow1(10, sequenceLength - n) % 10 else 1
+}
