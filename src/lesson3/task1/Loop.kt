@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -208,7 +209,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    val localX = x % (2 * PI)
+    var sin = localX
+    var sequenceTerm: Double
+    var n = 1
+    do {
+        sequenceTerm = (-1.0).pow(n) * localX.pow(2 * n + 1) / factorial(2 * n + 1)
+        sin += sequenceTerm
+        n += 1
+    } while (abs(sequenceTerm) > eps)
+    return sin
+}
 
 /**
  * Средняя (4 балла)
