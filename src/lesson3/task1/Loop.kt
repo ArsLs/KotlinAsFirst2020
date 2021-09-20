@@ -7,15 +7,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-//пришлось написать свою функцию pow1, потому что где-то напортачил и не даёт теперь pow нигде вставить кроме digitNumber
-fun pow1(n: Int, degree: Int): Int {
-    if (degree == 0) return 1
-    var result = n
-    for (i in 1..degree - 1) {
-        result *= n
-    }
-    return result
-}
+
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
@@ -85,7 +77,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    for (i in 1..100) {
+    for (i in 1..n) {
         if (10.0.pow(i) > abs(n)) return i
     }
     return n
@@ -117,7 +109,7 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2 until n) {
+    for (i in 2 until sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) return i
     }
     return n
@@ -238,21 +230,19 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var sequence: List<Int> = listOf()
     var sequenceLength = 0
-    var nSquare: Int
+    var nSquare = 0
     var nCounter = 1
     while (sequenceLength < n) {
         nSquare = nCounter * nCounter
         nCounter += 1
-        sequence += nSquare  //Idea ругается на +=, вроде говорит что каждый раз в памяти создается новый список,
-        sequenceLength += digitNumber(nSquare)                               /* но я не знаю пока как по другому*/
+        sequenceLength += digitNumber(nSquare)
     }
     //Функция создает список <Int> длинной минимум n цифр, в котором хранятся квадраты целых чисел,
     //Также считает длину этой последовательности складывая количества цифр в числах.
     //Далее, зная длину последовательности мы можем понять
     //какая цифра из последнего элемента списка нам нужна и выводим её
-    return sequence.last() / pow1(10, sequenceLength - n) % 10
+    return nSquare / pow1(10, sequenceLength - n) % 10
 }
 
 /**
@@ -265,11 +255,15 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var sequence: List<Int> = listOf(1, 1)
+    var newFib = 1
+    var fibMinus1 = 1
+    var fibMinus2 = 1
     var sequenceLength = 2
     while (sequenceLength < n) {
-        sequence += sequence.takeLast(2).sum()
-        sequenceLength += digitNumber(sequence.last())
+        newFib = fibMinus1 + fibMinus2
+        fibMinus2 = fibMinus1
+        fibMinus1 = newFib
+        sequenceLength += digitNumber(newFib)
     }
-    return if (n > 2) sequence.last() / pow1(10, sequenceLength - n) % 10 else 1
+    return if (n > 2) newFib / (10.0.pow(sequenceLength - n)).toInt() % 10 else 1
 }
