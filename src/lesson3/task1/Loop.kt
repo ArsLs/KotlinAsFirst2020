@@ -99,21 +99,16 @@ fun digitNumber(n: Int): Int {
  */
 
 fun fib(n: Int): Int {
-    return when (n) {
-        1 -> 1
-        2 -> 1
-        else -> {//Почему-то с циклом for функция работает в разы быстрее чем с рекурсией: fib(n - 1) + fib(n - 2)
-            var nMinus2: Int
-            var nMinus1 = 1
-            var N = 2
-            for (i in 4..n) {
-                nMinus2 = nMinus1
-                nMinus1 = N
-                N = nMinus1 + nMinus2
-            }
-            N
-        }
+    //Почему-то с циклом for функция работает в разы быстрее чем с рекурсией: fib(n - 1) + fib(n - 2)
+    var nMinus2: Int
+    var nMinus1 = 1
+    var N = 1
+    for (i in 3..n) {
+        nMinus2 = nMinus1
+        nMinus1 = N
+        N = nMinus1 + nMinus2
     }
+    return N
 }
 
 /**
