@@ -77,7 +77,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    for (i in 1..n) {
+    for (i in 1..Int.MAX_VALUE) {
         if (10.0.pow(i) > abs(n)) return i
     }
     return n
