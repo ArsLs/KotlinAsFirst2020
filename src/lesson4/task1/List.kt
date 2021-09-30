@@ -269,7 +269,7 @@ fun roman(n: Int): String {
     for ((number, string) in dictionary) {
         if (number <= n) {
             result.add(string.repeat(n / number))
-            n -= (n / number) * number
+            n %= number
         }
     }
     return result.joinToString(separator = "")
