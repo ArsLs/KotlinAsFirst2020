@@ -77,10 +77,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    for (i in 1..Int.MAX_VALUE) {
-        if (10.0.pow(i) > abs(n)) return i
+    var counter = 1
+    var number = abs(n)
+    while (number >= 10) {
+        counter++
+        number /= 10
     }
-    return n
+    return counter
 }
 
 /**
@@ -238,10 +241,6 @@ fun squareSequenceDigit(n: Int): Int {
         nCounter += 1
         sequenceLength += digitNumber(nSquare)
     }
-    //Функция создает список <Int> длинной минимум n цифр, в котором хранятся квадраты целых чисел,
-    //Также считает длину этой последовательности складывая количества цифр в числах.
-    //Далее, зная длину последовательности мы можем понять
-    //какая цифра из последнего элемента списка нам нужна и выводим её
     return nSquare / (10.0.pow(sequenceLength - n)).toInt() % 10
 }
 

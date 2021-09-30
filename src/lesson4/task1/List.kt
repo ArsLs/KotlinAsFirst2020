@@ -250,7 +250,7 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  */
 fun roman(n: Int): String {
     var n = n
-    var result = ""
+    var result = mutableListOf<String>()
     val dictionary = listOf(
         Pair(1000, "M"),
         Pair(900, "CM"),
@@ -266,13 +266,13 @@ fun roman(n: Int): String {
         Pair(4, "IV"),
         Pair(1, "I"),
         )
-    for ((Number, String) in dictionary) {
-        if (Number <= n) {
-            result += String.repeat(n / Number)
-            n -= (n / Number) * Number
+    for ((number, string) in dictionary) {
+        if (number <= n) {
+            result.add(string.repeat(n / number))
+            n -= (n / number) * number
         }
     }
-    return result
+    return result.joinToString(separator = "")
 }
 
 /**
