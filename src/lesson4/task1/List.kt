@@ -304,9 +304,11 @@ fun threeDigitNumber(n: Int): String {
         n == 0 -> ""
         // 1..9
         n < 10 -> dictionary[n][0]
-        // 10..100 и проверяем на попадание в 11..19
-        n < 100 -> if (n / 10 == 1) dictionary[0][n % 10] else
-            dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
+        // 10..100 и проверяем на попадание в 11..19 и 10,20,30,40,50,60,70,80,90
+        n < 100 ->
+            if (n / 10 == 1) dictionary[0][n % 10] else {
+                if (n % 10 ==0) dictionary[n / 10][1] else dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
+            }
         //100,200,300,400,500,600,700,800,900
         n % 100 == 0 -> dictionary[n / 100][2]
         // Когда ноль посередине (Например 508, 209, 101...)
@@ -322,7 +324,8 @@ fun russian(n: Int): String {
     var result = threeDigitNumber(n % 1000)
     val n = n / 1000
     if (n > 0) {
-        if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9) result = threeDigitNumber(n) + " тысяч " + result
+        if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9) result =
+            threeDigitNumber(n) + " тысяч " + result
         else {
             result = when {
                 n % 10 == 1 -> threeDigitNumber(n).dropLast(2) + "на тысяча " + result
