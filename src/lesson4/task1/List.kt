@@ -315,7 +315,7 @@ fun threeDigitNumber(n: Int): String {
         n / 10 % 10 == 0 -> dictionary[n / 100][2] + ' ' + dictionary[n % 10][0]
         //Когда ноль вконце
         n % 10 == 0 -> dictionary[n / 100][2] + ' ' + dictionary[n / 10 % 10][1]
-        //Всё остальное
+        //Числа без нулей
         else -> if (n / 10 % 10 == 1) dictionary[n / 100][2] + ' ' + dictionary[0][n % 10] else
             dictionary[n / 100][2] + ' ' + dictionary[n / 10 % 10][1] + ' ' + dictionary[n % 10][0]
 
