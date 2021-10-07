@@ -324,10 +324,10 @@ fun russian(n: Int): String {
     if (n > 0) {
         if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9) result = threeDigitNumber(n) + " тысяч " + result
         else {
-            when {
-                n % 10 == 1 -> result = threeDigitNumber(n).dropLast(2) + "на тысяча " + result
-                n % 10 == 2 -> result = threeDigitNumber(n).dropLast(1) + "е тысячи " + result
-                else -> result = threeDigitNumber(n) + " тысячи " + result
+            result = when {
+                n % 10 == 1 -> threeDigitNumber(n).dropLast(2) + "на тысяча " + result
+                n % 10 == 2 -> threeDigitNumber(n).dropLast(1) + "е тысячи " + result
+                else -> threeDigitNumber(n) + " тысячи " + result
             }
         }
     }
