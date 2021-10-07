@@ -265,7 +265,7 @@ fun roman(n: Int): String {
         Pair(5, "V"),
         Pair(4, "IV"),
         Pair(1, "I"),
-        )
+    )
     for ((number, string) in dictionary) {
         if (number <= n) {
             result.add(string.repeat(n / number))
@@ -282,4 +282,56 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun threeDigitNumber(n: Int): String {
+    /*Представляет число не более 3х знаков прописью*/
+    val dictionary = listOf(
+        listOf(
+            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+        ),
+        listOf("один", "", "сто"),
+        listOf("два", "двадцать", "двести"),
+        listOf("три", "тридцать", "триста"),
+        listOf("четыре", "сорок", "четыреста"),
+        listOf("пять", "пятьдесят", "пятьсот"),
+        listOf("шесть", "шестьдесят", "шестьсот"),
+        listOf("семь", "семьдесят", "семьсот"),
+        listOf("восемь", "восемьдесят", "восемьсот"),
+        listOf("девять", "девяносто", "девятьсот")
+    )
+    return when {
+        // 0
+        n == 0 -> ""
+        // 1..9
+        n < 10 -> dictionary[n][0]
+        // 10..100 и проверяем на попадание в 11..19
+        n < 100 -> if (n / 10 == 1) dictionary[0][n % 10] else
+            dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
+        //100,200,300,400,500,600,700,800,900
+        n % 100 == 0 -> dictionary[n / 100][2]
+        // Когда ноль посередине (Например 508, 209, 101...)
+        n / 10 % 10 == 0 -> dictionary[n / 100][2] + ' ' + dictionary[n % 10][0]
+        //Всё остальное
+        else -> if (n / 10 % 10 == 1) dictionary[n / 100][2] + ' ' + dictionary[0][n % 10] else
+            dictionary[n / 100][2] + ' ' + dictionary[n / 10 % 10][1] + ' ' + dictionary[n % 10][0]
+
+    }
+}
+
+fun russian(n: Int): String {
+    var result = threeDigitNumber(n % 1000)
+    val n = n / 1000
+    if (n > 0) {
+        if (n % 100 in 11..19 || n % 100 in 0..100 step 10) result = threeDigitNumber(n) + " тысяч " + result
+        else {
+            when {
+                n % 10 == 1 -> result = threeDigitNumber(n).dropLast(2) + "на тысяча " + result
+                n % 10 == 2 -> result = threeDigitNumber(n).dropLast(1) + "е тысячи " + result
+                else -> result = threeDigitNumber(n) + "тысячи" + result
+            }
+        }
+    }
+
+    return if (result.takeLast(1) == " ") result.dropLast(1) else result
+    //удаляем пробел для случаев когда после слова тысяча ничего не идёт
+}
