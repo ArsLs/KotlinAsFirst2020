@@ -327,7 +327,7 @@ fun russian(n: Int): String {
             when {
                 n % 10 == 1 -> result = threeDigitNumber(n).dropLast(2) + "на тысяча " + result
                 n % 10 == 2 -> result = threeDigitNumber(n).dropLast(1) + "е тысячи " + result
-                else -> result = threeDigitNumber(n) + "тысячи" + result
+                else -> result = threeDigitNumber(n) + " тысячи " + result
             }
         }
     }
