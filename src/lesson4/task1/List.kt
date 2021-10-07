@@ -322,7 +322,7 @@ fun russian(n: Int): String {
     var result = threeDigitNumber(n % 1000)
     val n = n / 1000
     if (n > 0) {
-        if (n % 100 in 11..19 || n % 100 in 0..100 step 10) result = threeDigitNumber(n) + " тысяч " + result
+        if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9) result = threeDigitNumber(n) + " тысяч " + result
         else {
             when {
                 n % 10 == 1 -> result = threeDigitNumber(n).dropLast(2) + "на тысяча " + result

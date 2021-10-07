@@ -241,14 +241,8 @@ class Tests {
         assertEquals("двести тысяч два", russian(200002))
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
-        assertEquals("шестьсот тридцать четыре тысячи сто девяносто пять", russian(634195))
+        assertEquals("триста десять", russian(310))
+        assertEquals("четыреста восемьдесят пять тысяч семьсот девяносто шесть", russian(485796))
     }
 }
 
-@Test
-@Tag("7")
-fun threeDigit() {
-    assertEquals("семьдесят пять", threeDigitNumber(75))
-    assertEquals("девятьсот шестьдесят четыре", threeDigitNumber(964))
-    assertEquals("сто девятнадцать", threeDigitNumber(119))
-}
