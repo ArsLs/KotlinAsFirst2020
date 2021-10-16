@@ -282,9 +282,9 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun threeDigitNumber(n: Int): String {
+fun threeDigitNumber(n: Int, x1000: Boolean): String {
     /*Представляет число не более 3х знаков прописью*/
-    val dictionary = listOf(
+    val dictionary = mutableListOf(
         listOf(
             "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
             "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
@@ -299,6 +299,10 @@ fun threeDigitNumber(n: Int): String {
         listOf("восемь", "восемьдесят", "восемьсот"),
         listOf("девять", "девяносто", "девятьсот")
     )
+    if (x1000) {
+        dictionary[1] = listOf("одна", "десять", "сто") // Почему-то не работает 'dictionary[1][0] = "одна"',
+        dictionary[2] = listOf("две", "двадцать", "двести") //даже если все делаю мутабельными. Поэтому меняю список целиком
+    }
     return when {
         // 0
         n == 0 -> ""
@@ -307,7 +311,7 @@ fun threeDigitNumber(n: Int): String {
         // 10..100 и проверяем на попадание в 11..19 и 10,20,30,40,50,60,70,80,90
         n < 100 ->
             if (n / 10 == 1) dictionary[0][n % 10] else {
-                if (n % 10 ==0) dictionary[n / 10][1] else dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
+                if (n % 10 == 0) dictionary[n / 10][1] else dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
             }
         //100,200,300,400,500,600,700,800,900
         n % 100 == 0 -> dictionary[n / 100][2]
@@ -324,16 +328,15 @@ fun threeDigitNumber(n: Int): String {
 
 fun russian(n: Int): String {
 
-    var result = threeDigitNumber(n % 1000)
+    var result = threeDigitNumber(n % 1000, false)
     val n = n / 1000
     if (n > 0) {
-        if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9) result =
-            threeDigitNumber(n) + " тысяч " + result
+        if (n % 100 in 11..19 || n % 100 in 0..100 step 10 || n % 10 in 5..9)
+            result = threeDigitNumber(n, true) + " тысяч " + result
         else {
             result = when {
-                n % 10 == 1 -> threeDigitNumber(n).dropLast(2) + "на тысяча " + result
-                n % 10 == 2 -> threeDigitNumber(n).dropLast(1) + "е тысячи " + result
-                else -> threeDigitNumber(n) + " тысячи " + result
+                n % 10 == 1 -> threeDigitNumber(n, true) + " тысяча " + result
+                else -> threeDigitNumber(n, true) + " тысячи " + result
             }
         }
     }
