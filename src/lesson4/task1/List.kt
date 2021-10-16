@@ -250,7 +250,7 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  */
 fun roman(n: Int): String {
     var n = n
-    var result = mutableListOf<String>()
+    val result = mutableListOf<String>()
     val dictionary = listOf(
         Pair(1000, "M"),
         Pair(900, "CM"),
@@ -323,6 +323,7 @@ fun threeDigitNumber(n: Int): String {
 }
 
 fun russian(n: Int): String {
+
     var result = threeDigitNumber(n % 1000)
     val n = n / 1000
     if (n > 0) {
