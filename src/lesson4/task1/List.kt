@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence", "NAME_SHADOWING")
 
 package lesson4.task1
 
@@ -282,52 +282,51 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+private val DICTIONARY11_19 = listOf(
+    "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+    "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+)
+private val DICTIONARY = listOf(
+    listOf("один", "десять", "сто", "одна"),
+    listOf("два", "двадцать", "двести", "две"),
+    listOf("три", "тридцать", "триста", "три"),
+    listOf("четыре", "сорок", "четыреста", "четыре"),
+    listOf("пять", "пятьдесят", "пятьсот", "пять"),
+    listOf("шесть", "шестьдесят", "шестьсот", "шесть"),
+    listOf("семь", "семьдесят", "семьсот", "семь"),
+    listOf("восемь", "восемьдесят", "восемьсот", "восемь"),
+    listOf("девять", "девяносто", "девятьсот", "девять")
+)
 fun threeDigitNumber(n: Int, x1000: Boolean): String {
     /*Представляет число не более 3х знаков прописью*/
-    val dictionary = mutableListOf(
-        listOf(
-            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
-            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
-        ),
-        listOf("один", "десять", "сто"),
-        listOf("два", "двадцать", "двести"),
-        listOf("три", "тридцать", "триста"),
-        listOf("четыре", "сорок", "четыреста"),
-        listOf("пять", "пятьдесят", "пятьсот"),
-        listOf("шесть", "шестьдесят", "шестьсот"),
-        listOf("семь", "семьдесят", "семьсот"),
-        listOf("восемь", "восемьдесят", "восемьсот"),
-        listOf("девять", "девяносто", "девятьсот")
-    )
+    var increment = 0
     if (x1000) {
-        dictionary[1] = listOf("одна", "десять", "сто") // Почему-то не работает 'dictionary[1][0] = "одна"',
-        dictionary[2] = listOf("две", "двадцать", "двести") //даже если все делаю мутабельными. Поэтому меняю список целиком
+        increment = 3
     }
     return when {
         // 0
         n == 0 -> ""
         // 1..9
-        n < 10 -> dictionary[n][0]
+        n < 10 -> DICTIONARY[n - 1][0 + increment]
         // 10..100 и проверяем на попадание в 11..19 и 10,20,30,40,50,60,70,80,90
         n < 100 ->
-            if (n / 10 == 1) dictionary[0][n % 10] else {
-                if (n % 10 == 0) dictionary[n / 10][1] else dictionary[n / 10][1] + ' ' + dictionary[n % 10][0]
+            if (n / 10 == 1) DICTIONARY11_19[n % 10] else {
+                if (n % 10 == 0) DICTIONARY[n / 10 - 1][1] else DICTIONARY[n / 10 - 1][1] + ' ' + DICTIONARY[n % 10 - 1][0 + increment]
             }
         //100,200,300,400,500,600,700,800,900
-        n % 100 == 0 -> dictionary[n / 100][2]
+        n % 100 == 0 -> DICTIONARY[n / 100 - 1][2]
         // Когда ноль посередине (Например 508, 209, 101...)
-        n / 10 % 10 == 0 -> dictionary[n / 100][2] + ' ' + dictionary[n % 10][0]
+        n / 10 % 10 == 0 -> DICTIONARY[n / 100 - 1][2] + ' ' + DICTIONARY[n % 10 - 1][0 + increment]
         //Когда ноль вконце
-        n % 10 == 0 -> dictionary[n / 100][2] + ' ' + dictionary[n / 10 % 10][1]
+        n % 10 == 0 -> DICTIONARY[n / 100 - 1][2] + ' ' + DICTIONARY[n / 10 % 10 - 1][1]
         //Числа без нулей
-        else -> if (n / 10 % 10 == 1) dictionary[n / 100][2] + ' ' + dictionary[0][n % 10] else
-            dictionary[n / 100][2] + ' ' + dictionary[n / 10 % 10][1] + ' ' + dictionary[n % 10][0]
+        else -> if (n / 10 % 10 == 1) DICTIONARY[n / 100 - 1][2] + ' ' + DICTIONARY11_19[n % 10] else
+            DICTIONARY[n / 100 - 1][2] + ' ' + DICTIONARY[n / 10 % 10 - 1][1] + ' ' + DICTIONARY[n % 10 - 1][0 + increment]
 
     }
 }
 
 fun russian(n: Int): String {
-
     var result = threeDigitNumber(n % 1000, false)
     val n = n / 1000
     if (n > 0) {
