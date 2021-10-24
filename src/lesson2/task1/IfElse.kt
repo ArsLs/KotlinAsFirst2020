@@ -132,8 +132,8 @@ fun whichRookThreatens(
     return when {
         //Оцениваем угрозы и выдаём ответ
         underThreatOf1 && underThreatOf2 -> 3
-        !underThreatOf1 && underThreatOf2 -> 2
-        underThreatOf1 && !underThreatOf2 -> 1
+        underThreatOf2 -> 2
+        underThreatOf1 -> 1
         else -> 0
     }
 }
