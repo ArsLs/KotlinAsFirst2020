@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.sorted
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -196,7 +198,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    var result = mutableMapOf<String, Double>()
+    val result = mutableMapOf<String, Double>()
     for ((stock, price) in stockPrices) {
         if (result[stock] == null) result[stock] = price else result[stock] = (result[stock]!! + price) / 2
     }
@@ -312,7 +314,24 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    /*
+    Решение найдено в треде https://www.cyberforum.ru/csharp-beginners/thread2227757.html
+    Для каждого элемента входного списка в свой map запоминает пару
+    "то, что надо прибавить для получения искомой суммы" - "индекс взятого элемента в списке"
+    Если при очередном числе из списка, рассчиталось число, которое уже есть в ключах map,
+    то выводим результат, так как индекс у нас уже сохранён в поле значения map
+    */
+    val map = mutableMapOf<Int, Int>()
+    var result = -1 to -1
+    for (i in list.indices) {
+        if (map.contains(list[i])) {
+            result = map[list[i]]!! to i
+        }
+        map[number - list[i]] = i
+    }
+    return result
+}
 
 /**
  * Очень сложная (8 баллов)
