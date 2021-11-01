@@ -2,7 +2,7 @@
 
 package lesson5.task1
 
-import ru.spbstu.wheels.sorted
+
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -198,9 +198,19 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val setOfStocks = mutableSetOf<String>()
     val result = mutableMapOf<String, Double>()
-    for ((stock, price) in stockPrices) {
-        if (result[stock] == null) result[stock] = price else result[stock] = (result[stock]!! + price) / 2
+    for ((name) in stockPrices) setOfStocks.add(name)
+    for (stock in setOfStocks) {
+        var counter = 0
+        var sumOfPrices = 0.0
+        for ((stockName, stockPrice) in stockPrices) {
+            if (stock == stockName) {
+                sumOfPrices += stockPrice
+                counter++
+            }
+        }
+        result[stock] = sumOfPrices / counter
     }
     return result
 }
