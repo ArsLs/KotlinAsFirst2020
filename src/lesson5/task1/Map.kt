@@ -374,7 +374,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         treasuresNewMap[Pair(name, weightAndPrice)] = pricePerWeight
     }
 
-    val treasuresSortedMap = treasuresNewMap.toList().sortedBy { (_, value) -> value }.toMap()
+    val treasuresSortedMap = treasuresNewMap.toList().sortedBy { (_, value) -> value }.reversed().toMap()
 
     val resultSet = mutableSetOf<String>()
     var currentWeight = 0
