@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.toMutableMap
 
 
 // Урок 5: ассоциативные массивы и множества
@@ -370,12 +371,14 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     всю информацию из первого мапа в качестве значения. Затем сортируем новый мап по удельной цене. И просто пробегаемся
     по нему кладя вещи в рюкзак если помещаются.
     */
-    val treasuresSortedMap = mutableMapOf<Double, Pair<String, Pair<Int, Int>>>()
+    val treasuresNewMap = mutableMapOf<Double, Pair<String, Pair<Int, Int>>>()
     for ((name, weightAndPrice) in treasures) {
         val pricePerWeight = weightAndPrice.second.toDouble() / weightAndPrice.first.toDouble()
-        treasuresSortedMap[pricePerWeight] = Pair(name, weightAndPrice)
+        treasuresNewMap[pricePerWeight] = Pair(name, weightAndPrice)
     }
-    treasuresSortedMap.toSortedMap()
+
+    val treasuresSortedMap = treasuresNewMap.toSortedMap(reverseOrder())
+
     val resultSet = mutableSetOf<String>()
     var currentWeight = 0
     for ((_, info) in treasuresSortedMap) {
