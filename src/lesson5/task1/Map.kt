@@ -172,10 +172,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     val resultMap = mutableMapOf<String, String>()
     for ((name, phoneNumber) in mapA) {
         resultMap[name] = phoneNumber
-        if (name in mapB) {
-            if (mapA[name] != mapB[name]) {
-                resultMap[name] += ", ${mapB[name]}"
-            }
+        if (name in mapB && mapA[name] != mapB[name]) {
+            resultMap[name] += ", ${mapB[name]}"
         }
     }
     for ((name, phoneNumber) in mapB) {
@@ -196,20 +194,18 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
+
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val setOfStocks = mutableSetOf<String>()
     val result = mutableMapOf<String, Double>()
-    for ((name) in stockPrices) setOfStocks.add(name)
-    for (stock in setOfStocks) {
-        var counter = 0
-        var sumOfPrices = 0.0
-        for ((stockName, stockPrice) in stockPrices) {
-            if (stock == stockName) {
-                sumOfPrices += stockPrice
-                counter++
-            }
+    val counterMap = mutableMapOf<String, Int>()
+    for ((stock, price) in stockPrices) {
+        if (result[stock] == null) {
+            result[stock] = price
+            counterMap[stock] = 1
+        } else {
+            result[stock] = (result[stock]!! * counterMap[stock]!! + price) / (counterMap[stock]!! + 1)
+            counterMap[stock] = counterMap[stock]!! + 1
         }
-        result[stock] = sumOfPrices / counter
     }
     return result
 }
