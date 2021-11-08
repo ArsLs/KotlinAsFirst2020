@@ -104,7 +104,7 @@ fun dateStrToDigit(str: String): String {
             !isYearLeap && month == "февраля" && day > 28 -> ""
             month in listOf("апреля", "июня", "сентября", "ноября") && day > 30 -> ""
             monthsMap[month] == null -> ""
-            else -> String.format("%02d.%02d.%04d", day, monthsMap[month], year)
+            else -> String.format("%02d.%02d.%d", day, monthsMap[month], year)
         }
     }
     catch (e: Exception) {
