@@ -365,8 +365,8 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     /*
-    Типичный жадный алгоритм. Делаем из входного мапа новый мап <Вся инфа из первого мапа, Удельная цена/вес>
-    Затем сортируем новый мап по удельной цене. И просто пробегаемся по нему кладя вещи в рюкзак если помещаются.
+    Сделал типичный жадный алгоритм, потому что давно знаю про него. Но только сейчас узнал что он неточно работает.
+    Скоро переделаю
     */
     val treasuresNewMap = mutableMapOf<Pair<String, Pair<Int, Int>>, Double>()
     for ((name, weightAndPrice) in treasures) {
