@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -361,25 +363,40 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     /*
-    Сделал типичный жадный алгоритм, потому что давно знаю про него. Но только сейчас узнал что он неточно работает.
-    Скоро переделаю
-    */
-    val treasuresNewMap = mutableMapOf<Pair<String, Pair<Int, Int>>, Double>()
-    for ((name, weightAndPrice) in treasures) {
-        val pricePerWeight = weightAndPrice.second.toDouble() / weightAndPrice.first.toDouble()
-        treasuresNewMap[Pair(name, weightAndPrice)] = pricePerWeight
+    Формализацию решения брал отсюда : https://neerc.ifmo.ru/wiki/index.php?title=Задача_о_рюкзаке#.D0.92.D0.B0.D1.80.D0.B8.D0.B0.D0.BD.D1.82.D1.8B_.D1.80.D0.B5.D1.88.D0.B5.D0.BD.D0.B8.D1.8F
+     */
+    val names = treasures.keys.toList()
+    val weight = mutableListOf<Int>()
+    val price = mutableListOf<Int>()
+    val n = treasures.size
+    for ((w, p) in treasures.values) {
+        weight.add(w)
+        price.add(p)
+    }
+    val maxValues = mutableListOf(mutableListOf<Int>())
+    for (i in 0..n-1) maxValues.add(mutableListOf(0))
+    for (i in 0..n) {
+        for (k in 0..capacity) maxValues[i].add(0)
     }
 
-    val treasuresSortedMap = treasuresNewMap.toList().sortedBy { (_, value) -> value }.reversed().toMap()
 
-    val resultSet = mutableSetOf<String>()
-    var currentWeight = 0
-    for ((info, _) in treasuresSortedMap) {
-        if (currentWeight + info.second.first <= capacity) {
-            resultSet.add(info.first)
-            currentWeight += info.second.first
+    for (k in 1..n) {
+        for (s in 1..capacity) {
+            maxValues[k][s] = if (s >= weight[k-1]) {
+                max(maxValues[k - 1][s], maxValues[k - 1][s - weight[k-1]] + price[k-1])
+            } else {
+                maxValues[k - 1][s]
+            }
         }
     }
-    return resultSet
+    val result = mutableSetOf<String>()
+    var s = capacity
+    for (k in n downTo 1) {
+        if (maxValues[k - 1][s] != maxValues[k][s]) {
+            s -= weight[k-1]
+            result.add(names[k - 1])
+        }
+    }
+    return result
 }
 
