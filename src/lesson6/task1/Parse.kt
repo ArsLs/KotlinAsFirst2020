@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import java.lang.Exception
+import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -150,7 +151,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val results = mutableListOf<Int>()
+    for (elem in jumps.split(' '))
+        when (elem) {
+            "%" -> true
+            "-" -> true
+            else ->
+                try {
+                    val result = elem.toInt()
+                    results.add(result)
+                }
+                catch (e: NumberFormatException) {
+                    return -1
+                }
+        }
+    return results.maxOrNull() ?: -1
+}
 
 /**
  * Сложная (6 баллов)
