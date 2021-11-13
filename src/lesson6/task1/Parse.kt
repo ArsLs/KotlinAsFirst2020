@@ -236,16 +236,16 @@ fun fromRoman(roman: String): Int {
     while (chars.isNotEmpty()) {
         try {
             if (chars[0] + chars[1].toString() in romansToDecimal.keys) {
-                result += romansToDecimal[chars[0] + chars[1].toString()]!!
+                result += romansToDecimal[chars[0] + chars[1].toString()] ?: 0
                 chars = chars.drop(2)
 
             } else {
-                result += romansToDecimal[chars[0].toString()]!!
+                result += romansToDecimal[chars[0].toString()] ?: 0
                 chars = chars.drop(1)
             }
         } catch (e: IndexOutOfBoundsException) {
             if (chars[0].toString() in romansToDecimal.keys) {
-                result += romansToDecimal[chars[0].toString()]!!
+                result += romansToDecimal[chars[0].toString()] ?: 0
                 chars = chars.drop(1)
             } else return -1
         }
