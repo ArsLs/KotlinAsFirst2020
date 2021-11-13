@@ -231,7 +231,6 @@ fun fromRoman(roman: String): Int {
         "M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90,
         "L" to 50, "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1
     )
-    if (roman.isEmpty()) return -1
     var chars = roman.toList()
     var result = 0
     while (chars.isNotEmpty()) {
@@ -251,7 +250,7 @@ fun fromRoman(roman: String): Int {
             } else return -1
         }
     }
-    return result
+    return if (result == 0) -1 else result
 }
 
 /**
