@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import java.lang.Exception
+import java.lang.IndexOutOfBoundsException
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -152,17 +153,13 @@ fun flattenPhoneNumber(phone: String): String = TODO()
 fun bestLongJump(jumps: String): Int {
     val results = mutableListOf<Int>()
     for (elem in jumps.split(' '))
-        when (elem) {
-            "%" -> true
-            "-" -> true
-            else ->
-                try {
-                    val result = elem.toInt()
-                    results.add(result)
-                } catch (e: NumberFormatException) {
-                    return -1
-                }
-        }
+        if (elem !in listOf("-", "%"))
+            try {
+                val result = elem.toInt()
+                results.add(result)
+            } catch (e: NumberFormatException) {
+                return -1
+            }
     return results.maxOrNull() ?: -1
 }
 
@@ -177,7 +174,16 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val results = mutableListOf<Int>()
+    val splittedString = jumps.split(' ')
+    for (i in splittedString.indices)
+        try {
+            if (splittedString[i + 1] == "+") results.add(splittedString[i].toInt())
+        } catch (e: IndexOutOfBoundsException) {
+        }
+    return results.maxOrNull() ?: -1
+}
 
 /**
  * Сложная (6 баллов)
@@ -199,7 +205,9 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int{
+
+}
 
 /**
  * Сложная (6 баллов)
@@ -212,7 +220,9 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String = {
+
+}
 
 /**
  * Сложная (6 баллов)
