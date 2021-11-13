@@ -205,9 +205,7 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int{
-
-}
+fun firstDuplicateIndex(str: String): Int = TODO()
 
 /**
  * Сложная (6 баллов)
@@ -220,9 +218,7 @@ fun firstDuplicateIndex(str: String): Int{
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = {
-
-}
+fun mostExpensive(description: String): String = TODO()
 
 /**
  * Сложная (6 баллов)
@@ -235,15 +231,7 @@ fun mostExpensive(description: String): String = {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int {
-    val romansToDecimal = mapOf(
-        "M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90,
-        "L" to 50, "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1
-    )
-    var chars = roman.toList()
-    var result = 0
-    return TODO()
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная (7 баллов)
