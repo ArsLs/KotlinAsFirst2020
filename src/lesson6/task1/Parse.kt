@@ -107,8 +107,7 @@ fun dateStrToDigit(str: String): String {
             monthsMap[month] == null -> ""
             else -> String.format("%02d.%02d.%d", day, monthsMap[month], year)
         }
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return ""
     }
 }
@@ -161,8 +160,7 @@ fun bestLongJump(jumps: String): Int {
                 try {
                     val result = elem.toInt()
                     results.add(result)
-                }
-                catch (e: NumberFormatException) {
+                } catch (e: NumberFormatException) {
                     return -1
                 }
         }
@@ -228,7 +226,32 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val romansToDecimal = mapOf(
+        "M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90,
+        "L" to 50, "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1
+    )
+    var chars = roman.toList()
+    var result = 0
+    while (chars.isNotEmpty()) {
+        try {
+            if (chars[0] + chars[1].toString() in romansToDecimal.keys) {
+                result += romansToDecimal[chars[0] + chars[1].toString()]!!
+                chars = chars.drop(2)
+
+            } else {
+                result += romansToDecimal[chars[0].toString()]!!
+                chars = chars.drop(1)
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            if (chars[0].toString() in romansToDecimal.keys) {
+                result += romansToDecimal[chars[0].toString()]!!
+                chars = chars.drop(1)
+            } else return -1
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная (7 баллов)
