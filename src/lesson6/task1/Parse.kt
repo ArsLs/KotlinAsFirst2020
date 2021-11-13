@@ -3,7 +3,6 @@
 package lesson6.task1
 
 import java.lang.Exception
-import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -233,24 +232,7 @@ fun fromRoman(roman: String): Int {
     )
     var chars = roman.toList()
     var result = 0
-    while (chars.isNotEmpty()) {
-        try {
-            if (chars[0] + chars[1].toString() in romansToDecimal.keys) {
-                result += romansToDecimal[chars[0] + chars[1].toString()] ?: 0
-                chars = chars.drop(2)
-
-            } else {
-                result += romansToDecimal[chars[0].toString()] ?: 0
-                chars = chars.drop(1)
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            if (chars[0].toString() in romansToDecimal.keys) {
-                result += romansToDecimal[chars[0].toString()] ?: 0
-                chars = chars.drop(1)
-            } else return -1
-        }
-    }
-    return if (result == 0) -1 else result
+    return TODO()
 }
 
 /**
