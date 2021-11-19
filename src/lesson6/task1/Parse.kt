@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
@@ -96,16 +97,12 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(' ')
     try {
         val day = parts[0].toInt()
-        val month = parts[1]
+        val month = monthsMap[parts[1]]!!
         val year = parts[2].toInt()
-        val isYearLeap = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)
         return when {
             day > 31 || day < 1 -> ""
-            isYearLeap && month == "февраля" && day > 29 -> ""
-            !isYearLeap && month == "февраля" && day > 28 -> ""
-            month in listOf("апреля", "июня", "сентября", "ноября") && day > 30 -> ""
-            monthsMap[month] == null -> ""
-            else -> String.format("%02d.%02d.%d", day, monthsMap[month], year)
+            day > daysInMonth(month, year) -> ""
+            else -> String.format("%02d.%02d.%d", day, month, year)
         }
     } catch (e: Exception) {
         return ""
