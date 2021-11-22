@@ -173,12 +173,9 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val results = mutableListOf<Int>()
-    val splittedString = jumps.split(' ')
-    for (i in splittedString.indices)
-        try {
-            if (splittedString[i + 1] == "+") results.add(splittedString[i].toInt())
-        } catch (e: IndexOutOfBoundsException) {
-        }
+    val splittedString = jumps.split(' ').toMutableList()
+    for (i in 0..splittedString.size - 2)
+        if (splittedString[i + 1] == "+") results.add(splittedString[i].toInt())
     return results.maxOrNull() ?: -1
 }
 
