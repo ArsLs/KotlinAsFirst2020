@@ -373,17 +373,13 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         weight.add(w)
         price.add(p)
     }
-    val maxValues = mutableListOf(mutableListOf<Int>())
-    for (i in 0..n-1) maxValues.add(mutableListOf(0))
-    for (i in 0..n) {
-        for (k in 0..capacity) maxValues[i].add(0)
-    }
 
+    val maxValues = MutableList(n + 1) { MutableList(capacity + 1) { 0 } }
 
     for (k in 1..n) {
         for (s in 1..capacity) {
-            maxValues[k][s] = if (s >= weight[k-1]) {
-                max(maxValues[k - 1][s], maxValues[k - 1][s - weight[k-1]] + price[k-1])
+            maxValues[k][s] = if (s >= weight[k - 1]) {
+                max(maxValues[k - 1][s], maxValues[k - 1][s - weight[k - 1]] + price[k - 1])
             } else {
                 maxValues[k - 1][s]
             }
@@ -393,7 +389,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var s = capacity
     for (k in n downTo 1) {
         if (maxValues[k - 1][s] != maxValues[k][s]) {
-            s -= weight[k-1]
+            s -= weight[k - 1]
             result.add(names[k - 1])
         }
     }
