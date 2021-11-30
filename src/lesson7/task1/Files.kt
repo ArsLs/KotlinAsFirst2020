@@ -95,6 +95,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val streamLength = inputStream.size
 
     for (substring in substrings) {
+        if (resultMap[substring] != 0) continue
         val str = substring.lowercase()
         val substringSize = str.length
         val substringFirstSymbol = str.first()
