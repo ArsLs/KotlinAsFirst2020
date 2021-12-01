@@ -101,10 +101,11 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         val substringFirstSymbol = str.first()
         inputStream.forEachIndexed { i, char ->
             if (char == substringFirstSymbol && i + substringSize <= streamLength) {
-                if (inputStream.subList(i, i + substringSize)
-                        .joinToString(separator = "") == str || char.toString() == str
-                )
-                    resultMap[substring] = resultMap[substring]!! + 1
+                var fullWordFound = true
+                for (index in substring.indices) {
+                    if (str[index] != inputStream[i + index]) fullWordFound = false
+                }
+                if (fullWordFound || char.toString() == str) resultMap[substring] = resultMap[substring]!! + 1
             }
         }
     }
