@@ -318,7 +318,7 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  */
 
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    /*Про reluctant quantifier "*?" прочитано тут:
+    /*Про reluctant (lazy) quantifier "*?" прочитано тут:
     https://stackoverflow.com/questions/3075130/what-is-the-difference-between-and-regular-expressions*/
 
     val writer = File(outputName).bufferedWriter()
