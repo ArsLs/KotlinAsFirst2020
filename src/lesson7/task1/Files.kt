@@ -321,10 +321,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
-    text = Regex("""\*\*[^*]+\*\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*\*.+\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.value.drop(2).dropLast(2) + "</b>"
     }
-    text = Regex("""\*[^*]+\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*.+\*""").replace(text) { m: MatchResult ->
         "<i>" + m.value.drop(1).dropLast(1) + "</i>"
     }
     text = Regex("""~~[^~]+~~""").replace(text) { m: MatchResult ->
