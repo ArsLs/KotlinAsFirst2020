@@ -2,13 +2,7 @@
 
 package lesson7.task1
 
-import lesson6.task1.bestHighJump
-import org.junit.Test
-import ru.spbstu.wheels.stack
 import java.io.File
-import java.lang.Exception
-import kotlin.reflect.KType
-import kotlin.reflect.typeOf
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -326,23 +320,20 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.write("<html><body><p>")
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty()) {
-            writer.write("</p>\n<p>")
-        } else {
-            var localLine = line
-            localLine = Regex("""\*\*[^*]+\*\*""").replace(localLine) { m: MatchResult ->
-                "<b>" + m.value.drop(2).dropLast(2) + "</b>"
-            }
-            localLine = Regex("""\*[^*]+\*""").replace(localLine) {m: MatchResult ->
-                "<i>" + m.value.drop(1).dropLast(1) + "</i>"
-            }
-            localLine = Regex("""~~[^~]+~~""").replace(localLine) {m: MatchResult ->
-                "<s>" + m.value.drop(2).dropLast(2) + "</s>"
-            }
-            writer.write(localLine)
-        }
+    var text = File(inputName).readText()
+    text = Regex("""\*\*[^*]+\*\*""").replace(text) { m: MatchResult ->
+        "<b>" + m.value.drop(2).dropLast(2) + "</b>"
     }
+    text = Regex("""\*[^*]+\*""").replace(text) { m: MatchResult ->
+        "<i>" + m.value.drop(1).dropLast(1) + "</i>"
+    }
+    text = Regex("""~~[^~]+~~""").replace(text) { m: MatchResult ->
+        "<s>" + m.value.drop(2).dropLast(2) + "</s>"
+    }
+    text = Regex("""\n\n""").replace(text) { m: MatchResult ->
+        "</p>\n<p>"
+    }
+    writer.write(text)
     writer.write("</p></body></html>")
     writer.close()
 }
