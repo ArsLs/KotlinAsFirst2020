@@ -2,7 +2,13 @@
 
 package lesson7.task1
 
+import lesson6.task1.bestHighJump
+import org.junit.Test
+import ru.spbstu.wheels.stack
 import java.io.File
+import java.lang.Exception
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -316,8 +322,29 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
+
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    writer.write("<html><body><p>")
+    for (line in File(inputName).readLines()) {
+        if (line.isEmpty()) {
+            writer.write("</p>\n<p>")
+        } else {
+            var localLine = line
+            localLine = Regex("""\*\*[^*]+\*\*""").replace(localLine) { m: MatchResult ->
+                "<b>" + m.value.drop(2).dropLast(2) + "</b>"
+            }
+            localLine = Regex("""\*[^*]+\*""").replace(localLine) {m: MatchResult ->
+                "<i>" + m.value.drop(1).dropLast(1) + "</i>"
+            }
+            localLine = Regex("""~~[^~]+~~""").replace(localLine) {m: MatchResult ->
+                "<s>" + m.value.drop(2).dropLast(2) + "</s>"
+            }
+            writer.write(localLine)
+        }
+    }
+    writer.write("</p></body></html>")
+    writer.close()
 }
 
 /**
@@ -420,6 +447,21 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 fun markdownToHtmlLists(inputName: String, outputName: String) {
     TODO()
 }
+//    val writer = File(outputName).bufferedWriter()
+//    val stack = stack<String>()
+//    val map = mutableMapOf<String, Int>()
+//    writer.write("<html><body><p>")
+//    for (line in File(inputName).readLines()) {
+//        var wsCounter = 0
+//        for (ch in line) if (ch == ' ') wsCounter += 1 else break
+//        map[line] = wsCounter / 4
+//    }
+//
+//    var currentLevel = 0
+//    for (idx in 0..map.size) {
+////        if (line[1] == '*') writer.write("<ul>")
+//    }
+//}
 
 /**
  * Очень сложная (30 баллов)
@@ -486,4 +528,34 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+
+fun weddingDinner(marks: List<String>, cost: Int): Int {
+    for (str in marks) {
+        if (!Regex("""[А-Я][а-я]+\+(ноль|один|два|три|четыре|пять|шесть|семь|восемь|девять|десять)""").matches(str))
+            throw IllegalArgumentException()
+    }
+
+    val dictionary = mapOf(
+        "ноль" to 0,
+        "один" to 1,
+        "два" to 2,
+        "три" to 3,
+        "четыре" to 4,
+        "пять" to 5,
+        "шесть" to 6,
+        "семь" to 7,
+        "восемь" to 8,
+        "девять" to 9,
+        "десять" to 10
+    )
+    var result = 0
+    for (str in marks) {
+        val guestsQuantity = (dictionary[str.split("+")[1]] ?: 0) + 1
+        result += guestsQuantity * cost
+    }
+    return result
+}
+
+
+
 
