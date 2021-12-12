@@ -325,13 +325,13 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
 
-    text = Regex("""\*\*(.*?)\*\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*\*(.+?)\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.groupValues[1] + "</b>"
     }
-    text = Regex("""\*(.*?)\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*(.+?)\*""").replace(text) { m: MatchResult ->
         "<i>" + m.groupValues[1] + "</i>"
     }
-    text = Regex("""~~(.*?)~~""").replace(text) { m: MatchResult ->
+    text = Regex("""~~(.+?)~~""").replace(text) { m: MatchResult ->
         "<s>" + m.groupValues[1] + "</s>"
     }
     text = Regex("""\n\n""").replace(text) { m: MatchResult ->
