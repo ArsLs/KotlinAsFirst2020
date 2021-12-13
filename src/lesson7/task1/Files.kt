@@ -325,7 +325,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
 
-//    text = Regex("""\n""").replace(text, "")
+    text = Regex("""\t""").replace(text, "")
 
     text = Regex("""\*\*([\s\S]+?)\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.groupValues[1] + "</b>"
@@ -443,7 +443,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-
+    TODO()
 }
 
 /**
