@@ -334,11 +334,25 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     text = Regex("""~~([\s\S]+?)~~""").replace(text) { m: MatchResult ->
         "<s>" + m.groupValues[1] + "</s>"
     }
-    text = Regex("""(\n\n)+|\n( |\\t)+(\n)""").replace(text) { m: MatchResult ->
-        "</p>\n<p>"
+//    text = Regex("""(\n\n)+|\n( |\t)+(\n)""").replace(text) { m: MatchResult ->
+//        "</p>\n<p>"
+//    }
+    var counter = 0
+    val lines = text.split("\n").toMutableList()
+    for (x in lines.indices) {
+        val line = lines[x]
+        if (line.trim().isEmpty()) {
+            if (counter > 0) {
+                if (x + 1 < lines.size && lines[x + 1].trim().isNotEmpty()) {
+                    lines[x] = "</p><p>"
+                    counter = 0
+                }
+            }
+        } else {
+            counter++
+        }
     }
-
-    writer.write(text)
+    writer.write(lines.joinToString(""))
     writer.write("</p></body></html>")
     writer.close()
 }
