@@ -324,20 +324,18 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
-    text = Regex("""\n\n""").replace(text) { m: MatchResult ->
-        "</p>\n<p>"
-    }
-    text = Regex("""\n""").replace(text, "")
 
-
-    text = Regex("""\*\*(.+?)\*\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*\*([\s\S]+?)\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.groupValues[1] + "</b>"
     }
-    text = Regex("""\*(.+?)\*""").replace(text) { m: MatchResult ->
+    text = Regex("""\*([\s\S]+?)\*""").replace(text) { m: MatchResult ->
         "<i>" + m.groupValues[1] + "</i>"
     }
-    text = Regex("""~~(.+?)~~""").replace(text) { m: MatchResult ->
+    text = Regex("""~~([\s\S]+?)~~""").replace(text) { m: MatchResult ->
         "<s>" + m.groupValues[1] + "</s>"
+    }
+    text = Regex("""\n\n""").replace(text) { m: MatchResult ->
+        "</p>\n<p>"
     }
 
     writer.write(text)
@@ -380,20 +378,20 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
  * Утка по-пекински
- * Утка
- * Соус
+    * Утка
+    * Соус
  * Салат Оливье
-1. Мясо
- * Или колбаса
-2. Майонез
-3. Картофель
-4. Что-то там ещё
+    1. Мясо
+        * Или колбаса
+    2. Майонез
+    3. Картофель
+    4. Что-то там ещё
  * Помидоры
  * Фрукты
-1. Бананы
-23. Яблоки
-1. Красные
-2. Зелёные
+    1. Бананы
+    23. Яблоки
+        1. Красные
+        2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
@@ -443,23 +441,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+
 }
-//    val writer = File(outputName).bufferedWriter()
-//    val stack = stack<String>()
-//    val map = mutableMapOf<String, Int>()
-//    writer.write("<html><body><p>")
-//    for (line in File(inputName).readLines()) {
-//        var wsCounter = 0
-//        for (ch in line) if (ch == ' ') wsCounter += 1 else break
-//        map[line] = wsCounter / 4
-//    }
-//
-//    var currentLevel = 0
-//    for (idx in 0..map.size) {
-////        if (line[1] == '*') writer.write("<ul>")
-//    }
-//}
 
 /**
  * Очень сложная (30 баллов)
