@@ -325,8 +325,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
 
-//    text = Regex("""\\t""").replace(text, "")
-
     text = Regex("""\*\*([\s\S]+?)\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.groupValues[1] + "</b>"
     }
