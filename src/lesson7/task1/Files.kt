@@ -325,6 +325,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("<html><body><p>")
     var text = File(inputName).readText()
 
+//    text = Regex("""\n""").replace(text, "")
+
     text = Regex("""\*\*([\s\S]+?)\*\*""").replace(text) { m: MatchResult ->
         "<b>" + m.groupValues[1] + "</b>"
     }
@@ -334,7 +336,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     text = Regex("""~~([\s\S]+?)~~""").replace(text) { m: MatchResult ->
         "<s>" + m.groupValues[1] + "</s>"
     }
-    text = Regex("""\n\n""").replace(text) { m: MatchResult ->
+    text = Regex("""(\n\n)+""").replace(text) { m: MatchResult ->
         "</p>\n<p>"
     }
 
@@ -510,32 +512,32 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
 
-fun weddingDinner(marks: List<String>, cost: Int): Int {
-    for (str in marks) {
-        if (!Regex("""[А-Я][а-я]+\+(ноль|один|два|три|четыре|пять|шесть|семь|восемь|девять|десять)""").matches(str))
-            throw IllegalArgumentException()
-    }
-
-    val dictionary = mapOf(
-        "ноль" to 0,
-        "один" to 1,
-        "два" to 2,
-        "три" to 3,
-        "четыре" to 4,
-        "пять" to 5,
-        "шесть" to 6,
-        "семь" to 7,
-        "восемь" to 8,
-        "девять" to 9,
-        "десять" to 10
-    )
-    var result = 0
-    for (str in marks) {
-        val guestsQuantity = (dictionary[str.split("+")[1]] ?: 0) + 1
-        result += guestsQuantity * cost
-    }
-    return result
-}
+//fun weddingDinner(marks: List<String>, cost: Int): Int {
+//    for (str in marks) {
+//        if (!Regex("""[А-Я][а-я]+\+(ноль|один|два|три|четыре|пять|шесть|семь|восемь|девять|десять)""").matches(str))
+//            throw IllegalArgumentException()
+//    }
+//
+//    val dictionary = mapOf(
+//        "ноль" to 0,
+//        "один" to 1,
+//        "два" to 2,
+//        "три" to 3,
+//        "четыре" to 4,
+//        "пять" to 5,
+//        "шесть" to 6,
+//        "семь" to 7,
+//        "восемь" to 8,
+//        "девять" to 9,
+//        "десять" to 10
+//    )
+//    var result = 0
+//    for (str in marks) {
+//        val guestsQuantity = (dictionary[str.split("+")[1]] ?: 0) + 1
+//        result += guestsQuantity * cost
+//    }
+//    return result
+//}
 
 
 
