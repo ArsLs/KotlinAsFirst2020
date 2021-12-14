@@ -101,7 +101,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         val substringFirstSymbol = str.first()
         inputStream.forEachIndexed { i, char ->
             if (char == substringFirstSymbol && i + substringSize <= streamLength) {
-                var fullWordFound = true
+                var fullWordFound = inputStream.subList(i, i + substringSize).joinToString("") == str
                 for (index in substring.indices) {
                     if (str[index] != inputStream[i + index]) fullWordFound = false
                 }
@@ -334,7 +334,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     text = Regex("""~~([\s\S]+?)~~""").replace(text) { m: MatchResult ->
         "<s>" + m.groupValues[1] + "</s>"
     }
-
+    text = Regex("""(\n\n)+|\n( |\t)+(\n)""").replace(text) { m: MatchResult ->
+        "</p>\n<p>"
+    }
     var counter = 0
     val lines = text.split("\n").toMutableList()
     for (x in lines.indices) {
@@ -350,7 +352,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             counter++
         }
     }
-    writer.write(lines.joinToString(""))
+    text = lines.joinToString("")
+    text = Regex("""(\n\n)+|\n( |\t)+(\n)""").replace(text) { m: MatchResult ->
+        "</p>\n<p>"
+    }
+    writer.write(text)
     writer.write("</p></body></html>")
     writer.close()
 }
