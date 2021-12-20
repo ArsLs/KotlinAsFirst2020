@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import ru.spbstu.wheels.stack
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -459,7 +460,49 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    val stack = stack<Char>()
+    val writer = File(outputName).bufferedWriter()
+    val allRecords = Regex("""(\s)*(\*|\d+\.)([А-Яа-я- ё]+)\n?""").findAll(File(inputName).readText()).toList()
+    /* groupValues[1] в matchResult'ах (группа поиска первых пробелов) содержит в себе почему-то один пробел там,
+    * где по идее она должна найти 4, 8, 12...
+    * Из-за этого приходится отдельно считать кол-во пробелов в отступе каждой строки */
+    val linesIndents = mutableListOf<Int>()
+    for (line in File(inputName).readLines())
+        linesIndents.add(line.takeWhile { it == ' ' }.length)
+
+    /*Обработка первой строчки*/
+    if (allRecords[0].groupValues[0][0] == '*') {
+        stack.push('u')
+        writer.write("<html><body><p><ul>")
+    } else {
+        stack.push('o')
+        writer.write("<html><body><p><ol>")
+    }
+    for (i in 0..allRecords.size-2) {
+        val info = allRecords[i].groupValues[3]
+        when (linesIndents[i+1] - linesIndents[i]) {
+            4 -> {
+                val listType = if (allRecords[i+1].groupValues[2] == "*") 'u' else 'o'
+                writer.write("<li>\n$info\n<${listType}l>")
+                stack.push(listType)
+            }
+            0 -> writer.write("<li>${info}</li>")
+            -4 -> {
+                writer.write("<li>${info}</li></${stack.top}l>\n</li>")
+                stack.pop()
+            }
+        }
+    }
+
+    if (linesIndents.takeLast(2)[1] - linesIndents.takeLast(2)[0] == 0) {
+        writer.write("<li>${allRecords.last().groupValues[3]}</li>")
+    }
+    while (stack.size > 1) {
+        writer.write("</${stack.top}l></li>")
+        stack.pop()
+    }
+    writer.write("</${stack.top}l></p></body></html>")
+    writer.close()
 }
 
 /**
