@@ -103,9 +103,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         inputStream.forEachIndexed { i, char ->
             if (char == substringFirstSymbol && i + substringSize <= streamLength) {
                 var fullWordFound = inputStream.subList(i, i + substringSize).joinToString("") == str
-                for (index in substring.indices) {
-                    if (str[index] != inputStream[i + index]) fullWordFound = false
-                }
                 if (fullWordFound || char.toString() == str) resultMap[substring] = resultMap[substring]!! + 1
             }
         }
