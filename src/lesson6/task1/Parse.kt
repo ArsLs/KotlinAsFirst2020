@@ -3,6 +3,8 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+
+import lesson2.task2.daysInMonth
 import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
@@ -135,7 +137,23 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val symbols = listOf<String>("+", "-", "(", ")", " ")
+    val numbers = listOf<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+    val otv = StringBuilder()
+    var flag = false
+    if ("+" in phone) otv.append("+")
+    phone.forEach {
+        if (it.toString() in numbers) {
+            otv.append(it.toString())
+            flag = false
+        } else if (it.toString() !in symbols) return ""
+        if (it.toString() == "(") flag = true
+        if (it.toString() == ")" && flag) return ""
+    }
+    return if (otv.toString() != "+") otv.toString()
+    else ""
+}
 
 /**
  * Средняя (5 баллов)
@@ -148,17 +166,12 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val results = mutableListOf<Int>()
-    for (elem in jumps.split(' '))
-        if (elem !in listOf("-", "%"))
-            try {
-                val result = elem.toInt()
-                results.add(result)
-            } catch (e: NumberFormatException) {
-                return -1
-            }
-    return results.maxOrNull() ?: -1
+    if (jumps.contains(Regex("""([^-%\s\d])"""))) return -1
+    if (Regex("""\d+""").find(jumps) == null) return -1
+    val mas = Regex("""\d+""").findAll(jumps)
+    return mas.maxOf { it.value.toInt() }
 }
+
 
 /**
  * Сложная (6 баллов)
@@ -172,11 +185,9 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val results = mutableListOf<Int>()
-    val splittedString = jumps.split(' ').toMutableList()
-    for (i in 0..splittedString.size - 2)
-        if (splittedString[i + 1] == "+") results.add(splittedString[i].toInt())
-    return results.maxOrNull() ?: -1
+    if (jumps.contains(Regex("""([^-%\s\d+])"""))) return -1
+    if (Regex("""\d+""").find(jumps) == null || (Regex("""\+""")).find(jumps) == null) return -1
+    return Regex("""\d+\s\+""").findAll(jumps).maxOf { it.value.split(" ")[0].toInt() }
 }
 
 /**
@@ -226,7 +237,20 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    try {
+        val mas = description.split("; ")
+        val list = mutableListOf<Pair<String, Double>>()
+        mas.forEach {
+            val box = it.split(" ")
+            list.add(Pair(box[0], box[1].toDouble()))
+        }
+        val mx = list.maxOf { it.second }
+        list.forEach { if (it.second == mx) return it.first }
+    } catch (e: IndexOutOfBoundsException) {
+    }
+    return ""
+}
 
 /**
  * Сложная (6 баллов)

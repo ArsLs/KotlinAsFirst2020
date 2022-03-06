@@ -4,6 +4,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -69,6 +70,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
+
 fun ageDescription(age: Int): String {
     //Берём только решающую часть возраста, так как сотни не влияют, И запоминаем последнюю цифру
     val decisivePartOfAge = age % 100
@@ -80,6 +82,7 @@ fun ageDescription(age: Int): String {
         else -> "$age года"
     }
 }
+
 
 /**
  * Простая (2 балла)
@@ -109,7 +112,6 @@ fun timeForHalfWay(
         //то мы так же берем от t3 только нужную нам часть до середины
         else -> return t1 + t2 + (halfWay - s1 - s2) / v3
     }
-
 }
 
 /**
@@ -138,7 +140,6 @@ fun whichRookThreatens(
     }
 }
 
-
 /**
  * Простая (2 балла)
  *
@@ -153,25 +154,12 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    val underThreatOfRook = kingX == rookX || kingY == rookY
-    //Угрозу по диагонали проверяем сравнивая суммы координат слона и короля
-    val underThreatOfBishop = when {
-        kingX + kingY == bishopX + bishopY -> true
-        else -> {
-            //Отражаем координаты доски по оси Y, чтобы проверить по второй диагонали таким же способом
-            val invertedSumOfKing = kingX + (11 - kingY)
-            val invertedSumOfBishop = bishopX + (11 - bishopY)
-            invertedSumOfBishop == invertedSumOfKing
-        }
-    }
-    return when {
-        underThreatOfBishop && underThreatOfRook -> 3
-        underThreatOfBishop && !underThreatOfRook -> 2
-        !underThreatOfBishop && underThreatOfRook -> 1
-        else -> 0
-    }
-}
+) = if (((kingX == rookX) || (kingY == rookY)) && (abs(bishopX - kingX) == abs(bishopY - kingY))) 3
+else if ((kingX == rookX) || (kingY == rookY)) 1
+else if (abs(bishopX - kingX) == abs(bishopY - kingY)) 2
+else 0
+
+
 
 /**
  * Простая (2 балла)
@@ -206,3 +194,4 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     a <= c && b <= d -> if (b >= c) b - c else -1
     else -> -1
 }
+

@@ -3,6 +3,7 @@ package lesson7.task1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.File
 
 class Tests {
@@ -441,5 +442,15 @@ Basic, Ruby, Swift.
         )
 
         File("temp.txt").delete()
+    }
+
+    @Test
+    fun maze() {
+        assertEquals("ddrrddld", maze("input/test1.txt"))
+        assertEquals("ldddrdddrr", maze("input/test2.txt"))
+        assertEquals("rdddlluuluulllddd", maze("input/test4.txt"))
+        assertThrows<IndexOutOfBoundsException> { maze("input/test3.txt") }
+        assertThrows<IndexOutOfBoundsException> { maze("input/test5.txt") }
+        assertThrows<IndexOutOfBoundsException> { maze("input/test6.txt") }
     }
 }

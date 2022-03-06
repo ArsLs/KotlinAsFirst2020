@@ -5,6 +5,11 @@ package lesson2.task2
 import lesson1.task1.sqr
 import lesson1.task1.trackLength
 import lesson2.task1.rookOrBishopThreatens
+import java.lang.Integer.max
+import java.lang.Integer.min
+import kotlin.math.abs
+import kotlin.math.sqrt
+
 
 /**
  * Пример
@@ -22,6 +27,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean = (number / 1000) + (number / 100 % 10) == (number % 100 / 10) + (number % 10)
 
+
 /**
  * Простая (2 балла)
  *
@@ -29,14 +35,9 @@ fun isNumberHappy(number: Int): Boolean = (number / 1000) + (number / 100 % 10) 
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2 || y1 == y2) return true
-    //Диагонали проверяем как в rookOrBishopThreatens()
-    //Проверяем сумму координат, инвертируем координаты, опять проверяем
-    if (x1 + y1 == x2 + y2) return true
-    if ((11 + x1 - y1) == (11 + x2 - y2)) return true
-    return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    ((x1 == x2) || (y1 == y2) || (abs(y2 - y1) == abs(x2 - x1)))
+
 
 
 /**
@@ -66,6 +67,7 @@ fun circleInside(
     x2: Double, y2: Double, r2: Double
 ): Boolean = trackLength(x1, y1, x2, y2) + r1 <= r2
 
+
 /**
  * Средняя (3 балла)
  *
@@ -76,8 +78,8 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val abc = listOf(a, b, c).sorted()
-    val rs = listOf(r, s).sorted()
-    return (abc[0] <= rs[0] && abc[1] <= rs[1]) || (abc[0] <= rs[1] && abc[1] <= rs[0])
-
+    val mas = arrayOf(a, b, c)
+    mas.sort()
+    return !((mas[0] > min(r, s)) || (mas[1] > max(r, s)))
 }
+
