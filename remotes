@@ -1,0 +1,6 @@
+origin  https://github.com/ArsLs/KotlinAsFirst2020.git (fetch)
+origin  https://github.com/ArsLs/KotlinAsFirst2020.git (push)
+upstream-my     https://github.com/ArsLs/KotlinAsFirst2021 (fetch)
+upstream-my     https://github.com/ArsLs/KotlinAsFirst2021 (push)
+upstream-theirs https://github.com/sql3/KotlinAsFirst2021.git (fetch)
+upstream-theirs https://github.com/sql3/KotlinAsFirst2021.git (push)
